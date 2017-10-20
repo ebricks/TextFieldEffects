@@ -36,7 +36,7 @@ import UIKit
     
     /**
      The color of the placeholder text.
-     
+
      This property applies a color to the complete placeholder string. The default value for this property is a black color.
      */
     @IBInspectable dynamic open var placeholderColor: UIColor = .black {
@@ -48,20 +48,14 @@ import UIKit
     /**
      The scale of the placeholder font.
      
-     This property determines the size of the placeholder label relative to the font size of the text field when place holder move up.
-     */
+     This property determines the size of the placeholder label relative to the font size of the text field.
+    */
     @IBInspectable dynamic open var placeholderFontScale: CGFloat = 0.65 {
         didSet {
             updatePlaceholder()
         }
     }
-    
-    @IBInspectable dynamic open var placeholderFontShrinkScale: CGFloat = 0.8 {
-        didSet {
-            updatePlaceholder()
-        }
-    }
-    
+
     override open var placeholder: String? {
         didSet {
             updatePlaceholder()
@@ -79,7 +73,7 @@ import UIKit
     private let placeholderInsets = CGPoint(x: 0, y: 6)
     private let textFieldInsets = CGPoint(x: 0, y: 12)
     private let inactiveBorderLayer = CALayer()
-    private let activeBorderLayer = CALayer()
+    private let activeBorderLayer = CALayer()    
     private var activePlaceholderPoint: CGPoint = CGPoint.zero
     
     // MARK: - TextFieldEffects
@@ -103,19 +97,18 @@ import UIKit
             UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 1.0, options: .beginFromCurrentState, animations: ({
                 self.placeholderLabel.frame.origin = CGPoint(x: 10, y: self.placeholderLabel.frame.origin.y)
                 self.placeholderLabel.alpha = 0
-                self.placeholderLabel.font = UIFont(name: self.font!.fontName, size: self.font!.pointSize * self.placeholderFontShrinkScale)
             }), completion: { _ in
                 self.animationCompletionHandler?(.textEntry)
             })
         }
-        
+    
         layoutPlaceholderInTextRect()
         placeholderLabel.frame.origin = activePlaceholderPoint
-        
-        UIView.animate(withDuration: 0.4, animations: {
-            self.placeholderLabel.alpha = 1.0
-        })
-        
+
+		UIView.animate(withDuration: 0.4, animations: {
+			self.placeholderLabel.alpha = 1.0
+		})
+
         activeBorderLayer.frame = rectForBorder(borderThickness.active, isFilled: true)
     }
     
@@ -124,7 +117,6 @@ import UIKit
             UIView.animate(withDuration: 0.35, delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 2.0, options: UIViewAnimationOptions.beginFromCurrentState, animations: ({
                 self.layoutPlaceholderInTextRect()
                 self.placeholderLabel.alpha = 1
-                self.placeholderLabel.font = UIFont(name: self.font!.fontName, size: self.font!.pointSize * 1.0)
             }), completion: { _ in
                 self.animationCompletionHandler?(.textDisplay)
             })
@@ -167,7 +159,7 @@ import UIKit
         }
     }
     
-    private func layoutPlaceholderInTextRect() {
+    private func layoutPlaceholderInTextRect() {        
         let textRect = self.textRect(forBounds: bounds)
         var originX = textRect.origin.x
         switch self.textAlignment {
@@ -179,9 +171,9 @@ import UIKit
             break
         }
         placeholderLabel.frame = CGRect(x: originX, y: textRect.height/2,
-                                        width: placeholderLabel.bounds.width, height: placeholderLabel.bounds.height)
+            width: placeholderLabel.bounds.width, height: placeholderLabel.bounds.height)
         activePlaceholderPoint = CGPoint(x: placeholderLabel.frame.origin.x, y: placeholderLabel.frame.origin.y - placeholderLabel.frame.size.height - placeholderInsets.y)
-        
+
     }
     
     // MARK: - Overrides
@@ -195,4 +187,3 @@ import UIKit
     }
     
 }
-
